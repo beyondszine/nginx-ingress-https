@@ -1,5 +1,9 @@
 #!/bin/bash
 
+Srcs:
+    - https://github.com/jetstack/cert-manager/blob/master/docs/tutorials/acme/quick-start/example/production-issuer.yaml
+    
+
 if [ -z $1 && -z $2 ]
 then
     echo "No environment for TLS certificate supplied!  Available options: "staging" or "prod" "
