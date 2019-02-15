@@ -11,10 +11,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - www.myhostname.domain
+    - {ingresshostname}
     secretName: tls-secret
   rules:
-    - host: www.myhostname.domain
+    - host: {ingresshostname}
       http:
         paths:
           - backend:
