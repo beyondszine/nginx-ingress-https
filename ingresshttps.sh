@@ -51,11 +51,11 @@ clusterissuerserver="acme"$tlstargetenvironment"server"
 echo "Generating cluster-issuer file for your environment: "$tlstargetenvironment
 clusterenvfile="cluster-issuer-"$tlstargetenvironment".yml"
 echo "Generated $clusterenvfile file"
-sed "s/{cluster-issuer-name}/${!clusterissuername}/g; s/{serverurl}/${!clusterissuerserver}/g; s/{myemailid}/$myemailid/g;" cluster-issuer-template.yml > $clusterenvfile
-
-if [ $? -ne 0 ]
+sed "s/{cluster-issuer-name}/${!clusterissuername}/g; s@{serverurl}@${!clusterissuerserver}@g; s/{myemailid}/$myemailid/g;" templates/cluster-issuer-template.yml > $clusterenvfile
+sederrorresult=$?
+if [ $sederrorresult -ne 0 ]
 then
-    echo "Sed error occured while replacing template; Exiting"
+    echo "Sed error occured while replacing template; $sederrorresult; Exiting"
     exit
 fi
 
@@ -69,8 +69,7 @@ then
 fi
 
 echo "Generating ingress resource yaml file."
-sed "s/{acme-environment-name}/${!clusterissuername}/g; s/{namespace}/$ingressnamespace/g; s/{ingresshostname}/$ingresshostname/g;" templates/ingressl7-template.yml > ingress-resource.yml
-
+sed "s/{acme-environment-name}/${!clusterissuername}/g; s/{mynamespace}/$ingressnamespace/g; s/{ingresshostname}/$ingresshostname/g;" templates/ingressl7-template.yml > ingress-resource.yml
 echo "now issue 'kubectl apply -f ingress-resource.yml'"
 
 
